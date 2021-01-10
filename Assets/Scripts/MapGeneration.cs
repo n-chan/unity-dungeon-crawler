@@ -8,10 +8,8 @@ public class MapGeneration : MonoBehaviour {
     int height;
 
     public Tilemap groundMap, collisionMap;
-
-    public Tile dirt, grass, stone, ladder;
-
-    //float scale = 0.2f;
+    public Tile dirt, grass, stone;
+    public Transform ladder;
 
     // Start is called before the first frame update
     void Start() {
@@ -27,7 +25,7 @@ public class MapGeneration : MonoBehaviour {
         for (int x = -width; x < width; x++) {
             for (int y = -height; y < height; y++) {
                 if (x == -width || x == width - 1 || y == -height || y == height - 1) {
-                    groundMap.SetTile(new Vector3Int(x, y, 0), grass);
+                    groundMap.SetTile(new Vector3Int(x, y, 0), stone);
                 }
                 else {
                     float n = Mathf.PerlinNoise((float)x * scale, (float)y * scale);
@@ -40,7 +38,16 @@ public class MapGeneration : MonoBehaviour {
                 }
             }
         }
-        groundMap.SetTile(new Vector3Int(0, 0, 0), ladder);
+        //Loop until a suitable spot to put the ladder is found.
+        while (true) {
+            int randomX = Random.Range(-width + 2, width - 2);
+            int randomY = Random.Range(-height + 2, height - 2);
+            //Debug.Log(randomX + " " + randomY);
+            if (!collisionMap.GetTile(new Vector3Int(randomX, randomY, 0))) {
+                Instantiate(ladder, new Vector3(randomX, randomY, 0), Quaternion.identity);
+                break;
+            }
+        }
     }
 
     // Update is called once per frame

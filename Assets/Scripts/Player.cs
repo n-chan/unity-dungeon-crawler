@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Player : MonoBehaviour
 {
     private Vector3 change;
     private float speed;
     private Rigidbody2D myRigidbody;
+    public Tilemap map;
+    public Tile ladder;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +21,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void FixedUpdate() {
